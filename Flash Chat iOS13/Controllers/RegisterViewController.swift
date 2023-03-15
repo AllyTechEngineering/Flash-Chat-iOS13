@@ -23,19 +23,18 @@ class RegisterViewController: UIViewController {
         if let email = emailTextfield.text, let password = passwordTextfield.text {
             Auth.auth().createUser(withEmail: email, password: password) { authResult, error in
                 if let e = error {
-                    print(e)
+                    print(e.localizedDescription)
+                    let alert = UIAlertController(title: K.passwordIssue, message: e.localizedDescription, preferredStyle: .alert)
+                          alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: K.defaultAction), style: .default, handler: { _ in
+                          NSLog("The \"OK\" alert occured.")
+                          } ) )
+                          self.present(alert, animated: true, completion: nil)
                 } else {
-                    self.performSegue(withIdentifier: "RegisterToChat", sender: self)
+                    self.performSegue(withIdentifier: K.registerSegue, sender: self)
                 } //else
             } //Auth.auth()
         } //if let email
     } // @IBAction func registerPressed
     
-    
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        if segue.identifier == "RegisterToChat" {
-//            let destinationCVC = segue.destination as! ChatViewController
-//        } //if segue
-//    } // override func prepare
     
 } //class RegisterViewController: UIViewController
